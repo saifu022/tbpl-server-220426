@@ -37,6 +37,13 @@ async function run() {
       `${process.env.DB_COLLECTION_USERS}`
     );
 
+    app.get("/users/all", (req, res) => {
+      userCollection.find().toArray((err, items) => {
+        res.send(items);
+        err && console.log(err);
+      });
+    });
+
     app.post("/user/add", async (req, res) => {
       const user = req.body;
       const { email } = user;
@@ -105,13 +112,6 @@ async function run() {
             "No account found for this email! please create a new account!",
         });
       }
-    });
-
-    app.get("/users/all", (req, res) => {
-      userCollection.find().toArray((err, items) => {
-        res.send(items);
-        err && console.log(err);
-      });
     });
 
     // ALL eventsCollection API
